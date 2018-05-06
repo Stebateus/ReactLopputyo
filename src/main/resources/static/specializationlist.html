@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Specialization List</title>
+    
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+	<div class='container'>
+    	<div id='root'></div>
+ 	</div>
+ 	
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.3/react-bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+ 	
+ 	
+    <script type="text/babel">
+    
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+
+		 this.deleteSpecialization = this.deleteSpecialization.bind(this);
+
+		this.state = {
+			specializations: [],
+		};
+	}
+
+	componentDidMount() {
+		this.loadSpecializationsFromServer();
+	}
+	//-----------Load specs from database---------------
+	loadSpecializationsFromServer() {
+		fetch('http://localhost:8080/api/specializations')
+		.then((response) => response.json())
+		.then((responseData) => {
+		console.log(responseData._embedded.specializations);
+			this.setState({
+				specializations: responseData._embedded.specializations,
+			});
+		});
+	}
+	//------------load ends -----------------------------
+
+
+	
+	//--------- Delete specialization-----------------
+	 deleteSpecialization(specialization) {
+	 	fetch (specialization._links.self.href, {
+	 		method: 'DELETE'
+	 	})
+	 	.then(
+	 		res => this.loadSpecializationsFromServer()
+	 	)
+	 	.catch(err => console.log(err))
+	 }
+	//----------Delete ends-------------------------
+
+	render() {
+		const spec = this.state.specializations.map((specs, id) =>
+			<tr key={id} deleteSpecialization={this.props.deleteSpecialization}>
+				<td>{specs.name}</td>
+				<td>{specs.charClass}</td>
+				<td>{specs.talent1}</td>
+				<td>{specs.talent2}</td>
+				<td>{specs.talent3}</td>
+				<td>{specs.talent4}</td>
+				<td>{specs.talent5}</td>
+				<td>{specs.talent6}</td>
+				<td>{specs.talent7}</td>
+				<td>{specs.talent8}</td>
+				<td>{specs.talent9}</td>
+				<td></td>
+				<td>
+					<button className="btn btn-danger" onClick={this.props.deleteSpecialization}>Delete</button>
+				</td>
+				<td>
+					<button className="btn" onClick={this.props.editSpecialization}>Edit</button>
+				</td>
+			</tr>
+		)
+     	return (
+		<div className="container">
+			<table className="table table-all">
+				<tbody>
+					<tr>
+						<th>Name</th>
+						<th>Class</th>
+						<th>Talent 1</th>
+						<th>Talent 2</th>
+						<th>Talent 3</th>
+						<th>Talent 4</th>
+						<th>Talent 5</th>
+						<th>Talent 6</th>
+						<th>Talent 7</th>
+						<th>Talent 8</th>
+						<th>Talent 9</th>
+						<th></th>
+					</tr>
+					{spec}
+				</tbody>
+			</table>
+		</div>
+		);
+	}
+}
+
+
+ class Specialization extends React.Component {
+ 	constructor(props) {
+ 	super(props);
+ 	this.deleteSpecialization = this.deleteSpecialization.bind(this);
+ 	}
+	
+ 	deleteSpecialization() {
+		 console.log("DELETING SPECIALIZATION!");
+ 	this.props.deleteSpecialization(this.props.specialization);
+ 	}
+	
+ 	render() {
+ 		return(
+ 		<tr>
+ 		<td>this.props.specialization.name</td>
+ 		<td>this.props.specialization.charClass</td>
+ 		<td>this.props.specialization.talent1</td>
+ 		<td>this.props.specialization.talent2</td>
+ 		<td>this.props.specialization.talent3</td>
+ 		<td>this.props.specialization.talent4</td>
+ 		<td>this.props.specialization.talent5</td>
+ 		<td>this.props.specialization.talent6</td>
+ 		<td>this.props.specialization.talent7</td>
+ 		<td>this.props.specialization.talent8</td>
+ 		<td>this.props.specialization.talent9</td>
+ 		<td>
+ 			<button className="btn btn-danger" onClick={this.deleteSpecialization}>Delete</button>
+ 		</td>
+ 		</tr>
+ 		);
+ 	}
+ }
+
+ReactDOM.render(<App />, document.getElementById('root') );
+</script>
+    
+</body>
+</html>

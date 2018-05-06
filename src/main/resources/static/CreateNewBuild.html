@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Build List</title>
+    
+    <meta charset="utf-8">
+	
+</head>
+<body>
+
+	<div class='container'>
+   		<div id='root'></div>
+	</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.3/react-bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+ 		
+    <script type="text/babel">
+
+class App extends React.Component {
+	constructor(props) {
+	super(props);
+
+
+	this.state = {
+		builds: [],
+		};
+}
+
+	componentDidMount() {
+	this.loadBuildsFromServer();
+	}
+
+	//---------Load builds from database--------
+
+	loadBuildsFromServer() {
+	fetch('http://localhost:8080/api/builds')
+	.then((response) => response.json())
+	.then((responseData) => {
+		console.log(responseData._embedded.builds);
+	this.setState({
+	builds: responseData._embedded.builds,
+		});
+	});
+}
+
+createBuild(build) {
+			fetch('http://localhost:8080/api/builds', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(build)
+			})
+			//päivitetään sivu lisäyksen jälkeen heti
+			.then(
+				res => this.loadBuildsFromServer()
+			)
+			//.catch(err => console.err(err))
+		}
+
+render() {
+     	return (
+		<div>
+			<BuildForm createBuild={this.createBuild}/>
+		</div>
+		);
+	}
+}
+
+//tehdään lisäys formi
+class BuildForm extends React.Component {
+	constructor(props) {
+		super(props);
+		//statet tulee objektin tiedoista
+		this.state = {name: '', comment: '', charClass: '', specialization1: '', s1t1: '', s1t2: '', s1t3: '',specialization2: '', s2t1: '', s2t2: '', s2t3: '', specialization3: '', s3t1: '', s3t2: '', s3t3: ''};
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+
+	}
+
+	//Päivitetään state kun lomakkeelle syötetään tietoa
+	handleChange(event) {
+		this.setState(
+			//arvot tulevat lomakkeelta
+			{[event.target.name]: event.target.value}
+		);
+	}
+
+	//Function to handle submit
+	handleSubmit(event) {
+		//Remove default settings to not to post to backend yet
+		event.preventDefault();
+		var newBuild = {name: this.state.name, comment: this.state.comment, charClass: this.state.charClass, specialization1: this.state.specialization1, s1t1: this.state.s1t1, s1t2: this.state.s1t2, s1t3: this.state.s1t3, specialization2: this.state.specialization2, s2t1: this.state.s2t1, s2t2: this.state.s2t2, s2t3: this.state.s2t3, specialization3: this.state.specialization3, s3t1: this.state.s3t1, s3t2: this.state.s3t2, s3t3: this.state.s3t3};
+		this.props.createBuild(newBuild);
+	}
+	//Render, jossa button ja tekstikentät tallennetaan
+
+	render() {
+		// return jotta palauttaa tietysti jotain...
+		console.log("testi pyöriikö tää ollenkaan!");
+		return(
+			
+	<div className="panel panel-default">
+		<div className="panel-heading">Create build</div>
+			<div className="panel-body"></div>
+			<form className="form-inline">
+				<div className="col-md-2">
+					<input type="text" placeholder="name" className="form-control" name="name" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder="description" className="form-control" name="comment" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder="class" className="form-control" name="charClass" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 1st specialization" className="form-control" name="specialization1" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 1st talent" className="form-control" name="s1t1" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 2nd talent" className="form-control" name="s1t2" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 3rd talent" className="form-control" name="s1t3" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 2st specialization" className="form-control" name="specialization2" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 1st talent" className="form-control" name="s2t1" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 2nd talent" className="form-control" name="s2t2" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 3rd talent" className="form-control" name="s2t3" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 3st specialization" className="form-control" name="specialization3" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 1st talent" className="form-control" name="s3t1" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 2nd talent" className="form-control" name="s3t2" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 3rd talent" className="form-control" name="s3t3" onChange={this.handleChange}/>
+				</div>
+				
+				<button className="btn btn-success" onClick={this.handleSubmit}>Save</button>
+			</form>
+	</div>
+);
+	}
+}
+
+
+ReactDOM.render(<App />, document.getElementById('root') );
+
+	</script>
+</body>
+</html>

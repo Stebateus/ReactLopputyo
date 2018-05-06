@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Build List</title>
+    
+    <meta charset="utf-8">
+	
+</head>
+<body>
+
+	<div class='container'>
+   		<div id='root'></div>
+	</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.3/react-bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+ 		
+    <script type="text/babel">
+
+class App extends React.Component {
+	constructor(props) {
+	super(props);
+
+	this.deleteBuild = this.deleteBuild.bind(this);
+
+	this.state = {
+		builds: [],
+		};
+}
+
+	componentDidMount() {
+	this.loadBuildsFromServer();
+	}
+
+	//---------Load builds from database--------
+	loadBuildsFromServer() {
+	fetch('http://localhost:8080/api/builds')
+	.then((response) => response.json())
+	.then((responseData) => {
+		console.log(responseData._embedded.builds);
+	this.setState({
+		builds: responseData._embedded.builds,
+		});
+	});
+}
+	//------------------load function ends-----------------------------
+
+	//-----------THIS DELETES BUILD WHEN CALLED-----------------------
+
+	deleteBuild(urBuild) {
+	fetch(build._links.self.href, {
+		method: 'DELETE'
+	})
+	.then(
+		res => this.loadBuildsFromServer()
+)
+.catch(err => console.error(err))
+}
+
+
+	//--------------------delete ends--------------------------
+
+render() {
+
+
+		const myBuild = this.state.builds.map((urBuild, id) =>
+			<tr key={id}>
+				<td>{urBuild.name}</td>
+				<td>{urBuild.comment}</td>
+				<td>{urBuild.charClass}</td>
+				<td>{urBuild.specialization1}</td>
+				<td>{urBuild.s1t1}</td>
+				<td>{urBuild.s1t2}</td>
+				<td>{urBuild.s1t3}</td>
+				<td>{urBuild.specialization2}</td>
+				<td>{urBuild.s2t1}</td>
+				<td>{urBuild.s2t2}</td>
+				<td>{urBuild.s2t3}</td>
+				<td>{urBuild.specialization3}</td>
+				<td>{urBuild.s3t1}</td>
+				<td>{urBuild.s3t2}</td>
+				<td>{urBuild.s3t3}</td>
+				<td></td>
+				<td>
+					<button className="btn btn-danger" onClick={this.deleteBuild.bind(this, urBuild)}>Delete</button>
+				</td>
+				<td>
+					<button className="btn" onClick={this.editBuild}>Edit</button>
+				</td>
+			</tr>
+		)
+     	return (
+		<div className="container">
+			<table className="table table-all">
+				<tbody>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Class</th>
+						<th>Specialization 1</th>
+						<th>Talent 1</th>
+						<th>Talent 2</th>
+						<th>Talent 3</th>
+						<th>Specialization 2</th>
+						<th>Talent 1</th>
+						<th>Talent 2</th>
+						<th>Talent 3</th>
+						<th>Specialization 3</th>
+						<th>Talent 1</th>
+						<th>Talent 2</th>
+						<th>Talent 3</th>
+						<th></th>
+					</tr>
+					{myBuild}
+				</tbody>
+			</table>
+		</div>
+		);
+	}
+}
+
+//LETS MAKE BUILD CLASS SO WE CAN DELETE BUILDS
+
+//  class Build extends React.Component {
+//  	constructor(props) {
+//  	super(props);
+//  	this.deleteBuild = this.deleteBuild.bind(this);
+//  	}
+//  	deleteBuild() {
+//  		console.log("DELETING BUILD!");
+//  this.props.deleteBuild(this.props.build);
+//  	}
+
+//  render() {
+//  	return(
+//  		<tr>
+// 			<td>{this.props.build.name}</td>
+//  			<td>{this.props.build.comment}</td>
+//  			<td>{this.props.build.charClass}</td>
+//  			<td>{this.props.build.specialization1}</td>
+//  			<td>{this.props.build.s1t1}</td>
+//  			<td>{this.props.build.s1t2}</td>
+//  			<td>{this.props.build.s1t3}</td>
+//  			<td>{this.props.build.specialization2}</td>
+//  			<td>{this.props.build.s2t1}</td>
+// 			<td>{this.props.build.s2t2}</td>
+// 			<td>{this.props.build.s2t3}</td>			
+// 			<td>{this.props.build.specialization3}</td>
+//  			<td>{this.props.build.s3t1}</td>
+//  			<td>{this.props.build.s3t2}</td>
+//  			<td>{this.props.build.s3t3}</td>
+//  			<td>
+//  				<button className="btn btn-danger" onClick={this.deleteBuild}>Delete</button>
+// 			</td>
+//  		</tr>
+//  		);
+//  	}
+//  }
+
+
+ReactDOM.render(<App />, document.getElementById('root') );
+
+	</script>
+</body>
+</html>

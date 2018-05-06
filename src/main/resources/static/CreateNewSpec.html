@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Specialization</title>
+    
+    <meta charset="utf-8">
+	
+</head>
+<body>
+
+	<div class='container'>
+   		<div id='root'></div>
+	</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.3/react-bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+ 		
+    <script type="text/babel">
+
+class App extends React.Component {
+	constructor(props) {
+	super(props);
+
+
+	this.state = {
+		specializations: [],
+		};
+}
+
+	componentDidMount() {
+	this.loadSpecializationsFromServer();
+	}
+
+	//---------Load specializations from database--------
+
+	loadSpecializationsFromServer() {
+	fetch('http://localhost:8080/api/specializations')
+	.then((response) => response.json())
+	.then((responseData) => {
+		console.log(responseData._embedded.specializations);
+	this.setState({
+	specializations: responseData._embedded.specializations,
+		});
+	});
+}
+
+createSpecialization(specialization) {
+			fetch('http://localhost:8080/api/specialization', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(specialization)
+			})
+			//päivitetään sivu lisäyksen jälkeen heti
+			.then(
+				res => this.loadSpecializationsFromServer()
+			)
+			//.catch(err => console.err(err))
+		}
+
+render() {
+     	return (
+		<div>
+			<SpecializationForm createSpecialization={this.createSpecialization}/>
+		</div>
+		);
+	}
+}
+
+//tehdään lisäys formi
+class SpecializationForm extends React.Component {
+	constructor(props) {
+		super(props);
+		//statet tulee objektin tiedoista
+		this.state = {name: '', charClass: '', talent1: '', talent2: '', talent3: '', talent4: '',talent5: '', talent6: '', talent7: '', talent8: '', talent9: ''};
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+
+	}
+
+	//Päivitetään state kun lomakkeelle syötetään tietoa
+	handleChange(event) {
+		this.setState(
+			//arvot tulevat lomakkeelta
+			{[event.target.name]: event.target.value}
+		);
+	}
+
+	//Function to handle submit
+	handleSubmit(event) {
+		//Remove default settings to not to post to backend yet
+		event.preventDefault();
+		var newSpecialization = {name: this.state.name, charClass: this.state.charClass, talent1: this.state.talent1, talent2: this.state.talent2, talent3: this.state.talent3, talent4: this.state.talent4, talent5: this.state.talent5, talent6: this.state.talent6, talent7: this.state.talent7, talent8: this.state.talent8, talent9: this.state.talent9};
+		this.props.createSpecialization(newSpecialization);
+	}
+	//Render, jossa button ja tekstikentät tallennetaan
+
+	render() {
+		// return jotta palauttaa tietysti jotain...
+		console.log("testi pyöriikö tää ollenkaan!");
+		return(
+			
+	<div className="panel panel-default">
+		<div className="panel-heading">Create a new Specialization</div>
+			<div className="panel-body"></div>
+			<form className="form-inline">
+				<div className="col-md-2">
+					<input type="text" placeholder="name" className="form-control" name="name" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder="class" className="form-control" name="charClass" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder="1st talent" className="form-control" name="talent1" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder="2nd talent" className="form-control" name="talent2" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 3rd talent" className="form-control" name="talent3" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 4th talent" className="form-control" name="talent4" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 5th talent" className="form-control" name="talent5" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 6th talent" className="form-control" name="talent6" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 7th talent" className="form-control" name="talent7" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 8th talent" className="form-control" name="talent8" onChange={this.handleChange}/>
+				</div>
+				<div className="col-md-2">
+					<input type="text" placeholder=" 9th talent" className="form-control" name="talent9" onChange={this.handleChange}/>
+				</div>
+				<div>
+					<button className="btn btn-success" onClick={this.handleSubmit}>Save</button>
+				</div>
+			</form>
+	</div>
+);
+	}
+}
+
+
+ReactDOM.render(<App />, document.getElementById('root') );
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index sivu</title>
+    
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+
+
+    <div id='root'></div>
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.3/react-bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+ 	 	
+    <script type="text/babel">
+class App extends React.Component {
+		constructor(props) {
+		super(props);
+	}
+
+
+
+componentDidMount() {
+}
+
+
+
+	render() {
+		return (
+			{Header}
+		);
+	}
+}
+
+class Header extends Component {
+
+  render() {
+    return (
+      <Navbar inverse collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <a href="/">Logo</a>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+        <Nav>
+          <NavItem eventKey={1} href='/'>Home</NavItem>
+          <NavItem eventKey={2} href='/Band'>Band</NavItem>
+          <NavItem eventKey={3} href='/Discography'>Discography</NavItem>
+          <NavItem eventKey={4} href='/Media'>Media</NavItem>
+          <NavItem eventKey={5} href='/Contact'>Contact</NavItem>
+        </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
+}
+ReactDOM.render(<App />, document.getElementById('root') );
+</script>
+</body>
+</html>
