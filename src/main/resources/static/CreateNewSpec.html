@@ -4,7 +4,7 @@
     <title>Create Specialization</title>
     
     <meta charset="utf-8">
-	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -16,7 +16,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.3/react-bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
      <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
  		
     <script type="text/babel">
@@ -49,7 +48,7 @@ class App extends React.Component {
 }
 
 createSpecialization(specialization) {
-			fetch('http://localhost:8080/api/specialization', {
+			fetch('http://localhost:8080/api/specializations', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -110,16 +109,16 @@ class SpecializationForm extends React.Component {
 			<div className="panel-body"></div>
 			<form className="form-inline">
 				<div className="col-md-2">
-					<input type="text" placeholder="name" className="form-control" name="name" onChange={this.handleChange}/>
+					<input type="text" placeholder=" name" className="form-control" name="name" onChange={this.handleChange}/>
 				</div>
 				<div className="col-md-2">
-					<input type="text" placeholder="class" className="form-control" name="charClass" onChange={this.handleChange}/>
+					<input type="text" placeholder=" class" className="form-control" name="charClass" onChange={this.handleChange}/>
 				</div>
 				<div className="col-md-2">
-					<input type="text" placeholder="1st talent" className="form-control" name="talent1" onChange={this.handleChange}/>
+					<input type="text" placeholder=" 1st talent" className="form-control" name="talent1" onChange={this.handleChange}/>
 				</div>
 				<div className="col-md-2">
-					<input type="text" placeholder="2nd talent" className="form-control" name="talent2" onChange={this.handleChange}/>
+					<input type="text" placeholder=" 2nd talent" className="form-control" name="talent2" onChange={this.handleChange}/>
 				</div>
 				<div className="col-md-2">
 					<input type="text" placeholder=" 3rd talent" className="form-control" name="talent3" onChange={this.handleChange}/>

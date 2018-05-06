@@ -25,44 +25,31 @@ class App extends React.Component {
 		super(props);
 	}
 
-
-
-componentDidMount() {
-}
-
-
-
 	render() {
 		return (
-			{Header}
+<div>
+	<Navbar>
+ 			<Navbar.Header>
+   				<Navbar.Brand>
+      				<a href="index.html">UrGW2Builds</a>
+    			</Navbar.Brand>
+  			</Navbar.Header>
+  		<Nav>
+    		<NavDropdown eventKey={3} title="Builds" id="basic-nav-dropdown">
+      			<MenuItem eventKey={3.1} href="buildlist.html">Build list</MenuItem>
+      			<MenuItem eventKey={3.2} href="CreateNewBuild.html">Create Build</MenuItem>
+    		</NavDropdown>
+			<NavDropdown eventKey={4} title="Specializations and Talents" id="basic-nav-dropdown">
+      			<MenuItem eventKey={4.1} href="specializationlist.html">Specializations list</MenuItem>
+      			<MenuItem eventKey={4.2} href="CreateNewSpec.html">Create specializations</MenuItem>
+    		</NavDropdown>
+ 		 </Nav>
+	</Navbar>
+<div>
 		);
 	}
 }
 
-class Header extends Component {
-
-  render() {
-    return (
-      <Navbar inverse collapseOnSelect>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="/">Logo</a>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-        <Nav>
-          <NavItem eventKey={1} href='/'>Home</NavItem>
-          <NavItem eventKey={2} href='/Band'>Band</NavItem>
-          <NavItem eventKey={3} href='/Discography'>Discography</NavItem>
-          <NavItem eventKey={4} href='/Media'>Media</NavItem>
-          <NavItem eventKey={5} href='/Contact'>Contact</NavItem>
-        </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    );
-  }
-}
 ReactDOM.render(<App />, document.getElementById('root') );
 </script>
 </body>

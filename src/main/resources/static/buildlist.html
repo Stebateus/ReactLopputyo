@@ -3,8 +3,10 @@
 <head>
     <title>Build List</title>
     
-    <meta charset="utf-8">
-	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="mystyles" type="text/css" href="css/mystyle.css">
 </head>
 <body>
 
@@ -16,7 +18,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.31.3/react-bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
      <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
  		
     <script type="text/babel">
@@ -52,15 +53,16 @@ class App extends React.Component {
 	//-----------THIS DELETES BUILD WHEN CALLED-----------------------
 
 	deleteBuild(urBuild) {
-	fetch(build._links.self.href, {
-		method: 'DELETE'
+		console.log(urBuild);
+	fetch(urBuild, {
+		method: 'DELETE',
 	})
-	.then(
-		res => this.loadBuildsFromServer()
-)
-.catch(err => console.error(err))
+	.then((response) => response)
+	.then((response) => {
+		console.log(response)
+		this.loadBuildsFromServer()
+	})
 }
-
 
 	//--------------------delete ends--------------------------
 
@@ -86,7 +88,7 @@ render() {
 				<td>{urBuild.s3t3}</td>
 				<td></td>
 				<td>
-					<button className="btn btn-danger" onClick={this.deleteBuild.bind(this, urBuild)}>Delete</button>
+					<button className="btn btn-danger" onClick={this.deleteBuild.bind(this, urBuild._links.self.href)}>Delete</button>
 				</td>
 				<td>
 					<button className="btn" onClick={this.editBuild}>Edit</button>
@@ -123,43 +125,6 @@ render() {
 	}
 }
 
-//LETS MAKE BUILD CLASS SO WE CAN DELETE BUILDS
-
-//  class Build extends React.Component {
-//  	constructor(props) {
-//  	super(props);
-//  	this.deleteBuild = this.deleteBuild.bind(this);
-//  	}
-//  	deleteBuild() {
-//  		console.log("DELETING BUILD!");
-//  this.props.deleteBuild(this.props.build);
-//  	}
-
-//  render() {
-//  	return(
-//  		<tr>
-// 			<td>{this.props.build.name}</td>
-//  			<td>{this.props.build.comment}</td>
-//  			<td>{this.props.build.charClass}</td>
-//  			<td>{this.props.build.specialization1}</td>
-//  			<td>{this.props.build.s1t1}</td>
-//  			<td>{this.props.build.s1t2}</td>
-//  			<td>{this.props.build.s1t3}</td>
-//  			<td>{this.props.build.specialization2}</td>
-//  			<td>{this.props.build.s2t1}</td>
-// 			<td>{this.props.build.s2t2}</td>
-// 			<td>{this.props.build.s2t3}</td>			
-// 			<td>{this.props.build.specialization3}</td>
-//  			<td>{this.props.build.s3t1}</td>
-//  			<td>{this.props.build.s3t2}</td>
-//  			<td>{this.props.build.s3t3}</td>
-//  			<td>
-//  				<button className="btn btn-danger" onClick={this.deleteBuild}>Delete</button>
-// 			</td>
-//  		</tr>
-//  		);
-//  	}
-//  }
 
 
 ReactDOM.render(<App />, document.getElementById('root') );
